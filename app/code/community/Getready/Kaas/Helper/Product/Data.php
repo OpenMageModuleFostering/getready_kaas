@@ -146,7 +146,7 @@ class Getready_Kaas_Helper_Product_Data extends Mage_Core_Helper_Abstract
         if (!$is_parent) {
             $parent_id = $this->_isChild($product, true);
             if ($parent_id) {
-                $group_id = $parent_id;   
+                $group_id = $parent_id;
             }
         }
 
@@ -194,12 +194,11 @@ class Getready_Kaas_Helper_Product_Data extends Mage_Core_Helper_Abstract
             // }
 
             if ($parent_ids) {
-                if ( $return_parent_id ) {
+                if ($return_parent_id) {
                     $is_child = reset($parent_ids);
                 } else {
                     $is_child = true;
                 }
-                
             }
         }
 
@@ -285,6 +284,16 @@ class Getready_Kaas_Helper_Product_Data extends Mage_Core_Helper_Abstract
         return $flat_attributes;
     }
 
+    protected function _normalizeFormatedValue($formated_value)
+    {
+        // check utf8
+        $formated_value = @iconv('UTF-8', 'UTF-8//IGNORE', $formated_value);
+        // remove not printed chars and 4+bytes symbols
+        $formated_value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x80-\x9F\x{10000}-\x{10FFFF}]/u', '', $formated_value);
+
+        return $formated_value;
+    }
+
     public function _getProductAttributeValue($product, $attribute)
     {
         $formated_value = $attribute->getFrontend()->getValue($product);
@@ -315,6 +324,9 @@ class Getready_Kaas_Helper_Product_Data extends Mage_Core_Helper_Abstract
             case 'datetime':
                 $formated_value = $this->_format_datetime($formated_value);
                 break;
+            default:
+                $formated_value = $this->_normalizeFormatedValue($formated_value);
+
         }
 
         return $formated_value;
