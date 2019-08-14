@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Magento Module developed by Getready s.r.o
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to info@getready.cz so we can send you a copy immediately.
+ * 
+ * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
+ *
+ */
+-->
+<definitions xmlns:typens="urn:{{var wsdl.name}}" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+    name="{{var wsdl.name}}" targetNamespace="urn:{{var wsdl.name}}">
+<types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:Magento">
+        <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/" />
+            <!-- Store --> 
+            <complexType name="kaasStoreEntity">
+                <all>
+                    <element name="store_id" type="xsd:int" />
+                    <element name="code" type="xsd:string" />
+                    <element name="website_id" type="xsd:int" />
+                    <element name="group_id" type="xsd:int" />
+                    <element name="name" type="xsd:string" />
+                    <element name="sort_order" type="xsd:int" />
+                    <element name="is_active" type="xsd:int" />
+                    <element name="country" type="xsd:string" />					
+                    <element name="language" type="xsd:string" />
+                    <element name="locale" type="xsd:string" />
+                    <element name="currency" type="xsd:string" />
+                    <element name="currency_symbol" type="xsd:string" />
+                    <element name="timezone" type="xsd:string" />
+                    <element name="store_url" type="xsd:string" />
+                    <element name="store_url_secure" type="xsd:string" />
+                </all>
+            </complexType>			
+            <complexType name="kaasStoreEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasStoreEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <!-- Category -->
+            <complexType name="kaasCategoryEntity">
+                <all>
+                    <element name="category_id" type="xsd:int" />
+                    <element name="url" type="xsd:string" />
+                    <element name="path" type="xsd:string" />
+                    <element name="path_ids" type="xsd:string" />
+                    <element name="path_url_key" type="xsd:string" />
+                    <element name="level" type="xsd:int" />
+                    <element name="parent_id" type="xsd:int" />
+                    <element name="parent_name" type="xsd:string" />
+                    <element name="root_id" type="xsd:int" />
+                    <element name="root_name" type="xsd:string" />
+                    <element name="description" type="xsd:string" />
+                    <element name="name" type="xsd:string" />
+                </all>
+            </complexType>
+            <complexType name="kaasCategoryEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasCategoryEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <!-- Product -->
+            <complexType name="kaasDatetimeSec">
+                <all>
+                    <element name="sec" type="xsd:int" />
+                    <element name="usec" type="xsd:int" />                    
+                </all>
+            </complexType>
+            <complexType name="kaasImageEntity">
+                <all>
+                    <element name="label" type="xsd:string" />
+                    <element name="thumbnail_image" type="xsd:string" />
+                    <element name="small_image" type="xsd:string" />
+                    <element name="base_image" type="xsd:string" />                   
+                </all>
+            </complexType>
+            <complexType name="kaasFlatAttributeEntity">
+                <all>
+                    <element name="code" type="xsd:string" />
+                    <element name="label" type="xsd:string" />
+                    <element name="value" type="xsd:string" />					                   
+                </all>
+            </complexType>			
+            <complexType name="kaasFlatAttributeArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasFlatAttributeEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="kaasGalleryArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasImageEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="kaasIdsArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:int[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="kaasProductCategoryEntity">
+                <all>
+                    <element name="id" type="xsd:int" />
+                    <element name="name" type="xsd:string" />
+                    <element name="path_ids" type="xsd:string" />
+                    <element name="level" type="xsd:int" />
+                    <element name="parent_id" type="xsd:int" />
+                    <element name="parent_name" type="xsd:string" />
+                    <element name="url" type="xsd:string" />
+                    <element name="path_url_key" type="xsd:string" />					
+                    <element name="path" type="xsd:string" />
+                    <element name="root_id" type="xsd:int" />
+                    <element name="root_name" type="xsd:string" />					
+                </all>
+            </complexType>
+            <complexType name="kaasProductCategoryArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasProductCategoryEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>			
+            <complexType name="kaasProductEntity">
+                <all>
+                    <element name="product_id" type="xsd:int" />
+                    <element name="group_id" type="xsd:int" />
+                    <element name="url" type="xsd:string" />
+                    <element name="created_at" type="xsd:kaasDatetimeSec" />
+                    <element name="creation_datetime" type="xsd:string" />
+                    <element name="creation_date" type="xsd:string" />
+                    <element name="creation_time" type="xsd:string" />
+                    <element name="updated_at" type="xsd:DatetimeSec" />
+                    <element name="updated_datetime" type="xsd:string" />
+                    <element name="updated_date" type="xsd:string" />
+                    <element name="updated_time" type="xsd:string" />
+                    <element name="is_visible" type="xsd:boolean" />
+                    <element name="is_parent" type="xsd:boolean" />
+                    <element name="is_child" type="xsd:boolean" />
+                    <element name="flat" type="xsd:kaasFlatAttributeArray" />
+                    <element name="price_original_include_tax" type="xsd:double" />
+                    <element name="price_original_exclude_tax" type="xsd:double" />
+                    <element name="price_final_include_tax" type="xsd:double" />
+                    <element name="price_final_exclude_tax" type="xsd:double" />
+                    <element name="price_cost" type="xsd:double" />
+                    <element name="tax_percent" type="xsd:double" />
+                    <element name="discount" type="xsd:double" />
+                    <element name="qty" type="xsd:int" />
+                    <element name="stock_status" type="xsd:boolean" />
+                    <element name="gallery" type="xsd:kaasGalleryArray" />
+                    <element name="category" type="xsd:kaasProductCategoryArray" />
+                    <element name="children" type="xsd:kaasIdsArray" />
+                </all>
+            </complexType>
+            <complexType name="kaasProductEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasProductEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="kaasProductErrorEntity">
+                <all>
+                    <element name="product_id" type="xsd:int" />
+                    <element name="message" type="xsd:string" />                    
+                </all>
+            </complexType>
+            <complexType name="kaasProductErrorArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasProductErrorEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <complexType name="kaasProductExportResponsArray">
+                <all>                    
+                    <element name="products" type="xsd:kaasProductEntityArray" />
+                    <element name="errors" type="xsd:kaasProductErrorArray" />
+                </all>
+            </complexType>
+            <complexType name="kaasProductIdArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:int[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+            <!-- Activity -->
+            <complexType name="kaasActivityFeedEntity">
+                <all>
+                    <element name="entity_id" type="xsd:int" />
+                    <element name="action" type="xsd:string" />                    
+                </all>
+            </complexType>
+            <complexType name="kaasActivityFeedEntityArray">
+                <complexContent>
+                    <restriction base="soapenc:Array">
+                        <attribute ref="soapenc:arrayType" wsdl:arrayType="typens:kaasActivityFeedEntity[]" />
+                    </restriction>
+                </complexContent>
+            </complexType>
+        </schema>
+    </types> 
+    <!-- Store -->   
+    <message name="kaasStoreInfoRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="storeId" type="xsd:string" />		
+    </message>
+    <message name="kaasStoreInfoResponse">
+        <part name="result" type="xsd:kaasStoreEntity" />
+    </message>	
+    <message name="kaasStoreInfoByCodeRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="storeCode" type="xsd:string" />		
+    </message>
+    <message name="kaasStoreInfoByCodeResponse">
+        <part name="result" type="xsd:kaasStoreEntity" />
+    </message>
+    <message name="kaasStoreListRequest">
+        <part name="sessionId" type="xsd:string"/>        		
+    </message>
+    <message name="kaasStoreListResponse">
+        <part name="result" type="xsd:kaasStoreEntityArray" />
+    </message>
+    <!-- Category -->
+    <message name="kaasCategoryInfoRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="categoryId" type="xsd:string" />		
+    </message>
+    <message name="kaasCategoryInfoResponse">
+        <part name="result" type="xsd:kaasCategoryEntity" />
+    </message>
+    <message name="kaasCategoryListRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="storeId" type="xsd:string" />		
+    </message>
+    <message name="kaasCategoryListResponse">
+        <part name="result" type="xsd:kaasCategoryEntityArray" />
+    </message>
+    <!-- Product -->
+    <message name="kaasProductInfoRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="productId" type="xsd:string" />	
+        <part name="storeId" type="xsd:string" />	
+    </message>
+    <message name="kaasProductInfoResponse">
+        <part name="result" type="xsd:kaasProductEntity" />
+    </message>
+    <message name="kaasProductInfoBySkuRequest">
+        <part name="sessionId" type="xsd:string"/>
+        <part name="productSku" type="xsd:string" />	
+        <part name="storeId" type="xsd:string" />	
+    </message>
+    <message name="kaasProductInfoBySkuResponse">
+        <part name="result" type="xsd:kaasProductEntity" />
+    </message>
+    <message name="kaasProductListRequest">
+        <part name="sessionId" type="xsd:string"/>        
+        <part name="storeId" type="xsd:string" />	
+    </message>
+    <message name="kaasProductListResponse">
+        <part name="result" type="xsd:kaasProductEntityArray" />
+    </message>
+    <message name="kaasProductListIdsRequest">
+        <part name="sessionId" type="xsd:string"/>        
+        <part name="storeId" type="xsd:string" />	
+    </message>
+    <message name="kaasProductListIdsResponse">
+        <part name="result" type="xsd:kaasProductIdArray" />
+    </message>
+    <message name="kaasProductListByIdsRequest">
+        <part name="sessionId" type="xsd:string"/>        
+        <part name="storeId" type="xsd:string" />
+        <part name="productIds" type="xsd:kaasProductIdArray" />	
+    </message>
+    <message name="kaasProductListByIdsResponse">
+        <part name="result" type="xsd:kaasProductExportResponsArray" />
+    </message>
+    <!-- Activity -->
+    <message name="kaasActivityFeedRequest">
+        <part name="sessionId" type="xsd:string"/>        
+        <part name="storeId" type="xsd:string" />	
+    </message>
+    <message name="kaasActivityFeedResponse">
+        <part name="result" type="xsd:kaasActivityFeedEntityArray" />
+    </message>
+    <message name="kaasActivityClearRequest">
+        <part name="sessionId" type="xsd:string"/>        
+        <part name="storeId" type="xsd:string" />	
+    </message>
+    <message name="kaasActivityClearResponse">
+        <part name="result" type="xsd:boolean" />
+    </message>
+    <portType name="{{var wsdl.handler}}PortType">
+        <!-- Store -->        
+        <operation name="kaasStoreInfo">
+            <documentation>Getready - Koongo Kaas Store Info</documentation>
+            <input message="typens:kaasStoreInfoRequest" />
+            <output message="typens:kaasStoreInfoResponse" />
+        </operation>	
+        <operation name="kaasStoreInfoByCode">
+            <documentation>Getready - Koongo Kaas Store Info By Store Code</documentation>
+            <input message="typens:kaasStoreInfoByCodeRequest" />
+            <output message="typens:kaasStoreInfoByCodeResponse" />
+        </operation>	
+        <operation name="kaasStoreList">
+            <documentation>Getready - Koongo Kaas Store List</documentation>
+            <input message="typens:kaasStoreListRequest" />
+            <output message="typens:kaasStoreListResponse" />
+        </operation>
+        <!-- Category -->
+        <operation name="kaasCategoryInfo">
+            <documentation>Getready - Koongo Kaas Category Info</documentation>
+            <input message="typens:kaasCategoryInfoRequest" />
+            <output message="typens:kaasCategoryInfoResponse" />
+        </operation>
+        <operation name="kaasCategoryList">
+            <documentation>Getready - Koongo Kaas Category List</documentation>
+            <input message="typens:kaasCategoryListRequest" />
+            <output message="typens:kaasCategoryListResponse" />
+        </operation>
+        <!-- Product -->
+        <operation name="kaasProductInfo">
+            <documentation>Getready - Koongo Kaas Product Info</documentation>
+            <input message="typens:kaasProductInfoRequest" />
+            <output message="typens:kaasProductInfoResponse" />
+        </operation>
+        <operation name="kaasProductInfoBySku">
+            <documentation>Getready - Koongo Kaas Product Info by SKU</documentation>
+            <input message="typens:kaasProductInfoBySkuRequest" />
+            <output message="typens:kaasProductInfoBySkuResponse" />
+        </operation>
+        <operation name="kaasProductList">
+            <documentation>Getready - Koongo Kaas Product List</documentation>
+            <input message="typens:kaasProductListRequest" />
+            <output message="typens:kaasProductListResponse" />
+        </operation>
+        <operation name="kaasProductListIds">
+            <documentation>Getready - Koongo Kaas Product List IDs</documentation>
+            <input message="typens:kaasProductListIdsRequest" />
+            <output message="typens:kaasProductListIdsResponse" />
+        </operation>
+        <operation name="kaasProductListByIds">
+            <documentation>Getready - Koongo Kaas Product List By IDs</documentation>
+            <input message="typens:kaasProductListByIdsRequest" />
+            <output message="typens:kaasProductListByIdsResponse" />
+        </operation>
+        <!-- Activity -->
+        <operation name="kaasActivityFeed">
+            <documentation>Getready - Koongo Kaas Activity Feed</documentation>
+            <input message="typens:kaasActivityFeedRequest" />
+            <output message="typens:kaasActivityFeedResponse" />
+        </operation>
+        <operation name="kaasActivityClear">
+            <documentation>Getready - Clear Koongo Kaas Activity</documentation>
+            <input message="typens:kaasActivityFeedRequest" />
+            <output message="typens:kaasActivityFeedResponse" />
+        </operation>
+    </portType>
+    <binding name="{{var wsdl.handler}}Binding" type="typens:{{var wsdl.handler}}PortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />  
+        <!-- Store -->      
+        <operation name="kaasStoreInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasStoreInfoByCode">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasStoreList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <!-- Category -->	
+        <operation name="kaasCategoryInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>	
+        <operation name="kaasCategoryList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <!-- Product -->
+        <operation name="kaasProductInfo">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasProductInfoBySku">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasProductList">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasProductListIds">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasProductListByIds">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <!-- Activity -->
+        <operation name="kaasActivityFeed">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+        <operation name="kaasActivityClear">
+            <soap:operation soapAction="urn:{{var wsdl.handler}}Action" />
+            <input>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </input>
+            <output>
+                <soap:body namespace="urn:{{var wsdl.name}}" use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+            </output>
+        </operation>
+    </binding>
+    <service name="{{var wsdl.name}}Service">
+        <port name="{{var wsdl.handler}}Port" binding="typens:{{var wsdl.handler}}Binding">
+            <soap:address location="{{var wsdl.url}}" />
+        </port>
+    </service>
+</definitions>

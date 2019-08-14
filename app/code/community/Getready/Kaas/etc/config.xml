@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Module developed by Getready s.r.o
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to info@getready.cz so we can send you a copy immediately.
+ * 
+ * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
+ *
+ */
+-->
+<config>
+    <modules>
+        <Getready_Kaas>
+            <version>1.0.0</version>
+        </Getready_Kaas>
+    </modules>
+		
+    <global>			
+        <models>
+            <kaas>
+                <class>Getready_Kaas_Model</class>
+                <resourceModel>kaas_mysql4</resourceModel>				
+            </kaas>	
+            <kaas_mysql4>
+                <class>Getready_Kaas_Model_Mysql4</class>
+                <entities>
+                    <kaas_activity>
+                        <table>getready_kaas_activity</table>
+                    </kaas_activity>
+                </entities>		
+            </kaas_mysql4>		
+        </models>		
+        <resources>
+            <kaas_setup>
+                <setup>
+                    <module>Getready_Kaas</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </kaas_setup>
+            <kaas_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </kaas_write>
+            <kaas_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </kaas_read>
+        </resources>
+        <helpers>
+            <kaas>
+                <class>Getready_Kaas_Helper</class>
+            </kaas>	
+            <kaas_store>
+                <class>Getready_Kaas_Helper_Store</class>
+            </kaas_store>
+            <kaas_category>
+                <class>Getready_Kaas_Helper_Category</class>
+            </kaas_category>
+            <kaas_category_cache>
+                <class>Getready_Kaas_Helper_Category_Cache</class>
+            </kaas_category_cache>	
+            <kaas_product>
+                <class>Getready_Kaas_Helper_Product</class>
+            </kaas_product>	
+            <kaas_product_category>
+                <class>Getready_Kaas_Helper_Product_Category</class>
+            </kaas_product_category>
+            <kaas_product_store>
+                <class>Getready_Kaas_Helper_Product_Store</class>
+            </kaas_product_store>	
+            <kaas_activity>
+                <class>Getready_Kaas_Helper_Activity</class>
+            </kaas_activity>
+        </helpers>
+            <events>
+                <catalog_product_save_after>
+                    <observers>
+                        <kaas_activity_update>
+                            <class>kaas/observer</class>
+                            <method>addUpdateActivity</method>
+                        </kaas_activity_update>
+                    </observers>
+                </catalog_product_save_after>
+                <catalog_product_delete_after>
+                    <observers>
+                        <kaas_activity_delete>
+                            <class>kaas/observer</class>
+                            <method>addDeleteActivity</method>
+                        </kaas_activity_delete>
+                    </observers>
+                </catalog_product_delete_after>
+                <checkout_submit_all_after>
+                    <observers>
+                        <kaas_activity_stock>
+                            <class>kaas/observer</class>
+                            <method>addStockActivity</method>
+                        </kaas_activity_stock>
+                    </observers>
+                </checkout_submit_all_after>
+            </events>
+	</global>		
+</config>
