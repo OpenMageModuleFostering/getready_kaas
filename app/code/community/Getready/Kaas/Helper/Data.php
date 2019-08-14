@@ -25,5 +25,10 @@
  */
 class Getready_Kaas_Helper_Data extends Mage_Core_Helper_Abstract
 {
-   
+    const DEFAULT_ROOT_LEVEL = 2;
+    
+    public function getDefaultRootLevel()
+    {
+        return self::DEFAULT_ROOT_LEVEL;
+    }
 }

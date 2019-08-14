@@ -25,29 +25,30 @@
  */
 class Getready_Kaas_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
 {
-	public function info($categoryId,$storeId = null)
-	{				
-		$category = Mage::getModel('catalog/category');
-		if(!is_null($storeId))
-		{
+    public function info($categoryId,$storeId = null)
+    {				
+        $category = Mage::getModel('catalog/category');
+        if(!is_null($storeId))
+        {
             $category->setStoreId($storeId);
-		}
+        }
         $category->load($categoryId);
 
         if (!$category->getId()) {
             $this->_fault('category_not_exists');
         }
-		
-		$category_info = Mage::Helper('kaas_category')->getCategoryInfo($category,1);
-		
-		return $category_info;
-	}
+	
+        $category_helper = Mage::Helper('kaas_category')->setStoreId($storeId);       
+        $category_info = $category_helper->getCategoryInfo($category,1);
+
+        return $category_info;
+    }
 	
 	
 	
-	public function items($storeId)
-	{		
-		try {
+    public function items($storeId)
+    {		
+        try {
             $store = Mage::app()->getStore($storeId);
         } catch (Mage_Core_Model_Store_Exception $e) {
             $this->_fault('store_not_exists');
@@ -57,15 +58,14 @@ class Getready_Kaas_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('store_not_exists');
         }
 						
-		$root_id = $store->getRootCategoryId();
+        $root_id = $store->getRootCategoryId();
 		
-		/* @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
-        $tree = Mage::getResourceSingleton('catalog/category_tree')
-            ->load();
+        /* @var $tree Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree */
+        $tree = Mage::getResourceSingleton('catalog/category_tree')->load();
 
         $root = $tree->getNodeById($root_id);
 		
-		if($root && $root->getId() == 1) {
+        if($root && $root->getId() == 1) {
             $root->setName(Mage::helper('catalog')->__('Root'));
         }
 
@@ -76,23 +76,33 @@ class Getready_Kaas_Model_Category_Api extends Mage_Api_Model_Resource_Abstract
 
         $tree->addCollectionData($collection, true);
 
-        $category_info = $this->_nodeToArray($root);
+        $category_info = $this->_nodeToArray($root,$storeId);
 		
 				
-		return $category_info;
-	}
+        return $category_info;
+    }
 	
-	protected function _nodeToArray(Varien_Data_Tree_Node $node)
+    protected function _nodeToArray(Varien_Data_Tree_Node $node,$store_id = 0)
     {
-		$result = array();
-		$category_id = $node->getId();
-		$category = Mage::Helper('kaas_category_cache')->getCategory($category_id);
-		$category_info = Mage::Helper('kaas_category')->getCategoryInfo($category,1);
-		
-		$result[] = $category_info;
-		
-		foreach ($node->getChildren() as $child) {
-            $result = array_merge($result,$this->_nodeToArray($child));
+        $default_root_level = Mage::Helper('kaas')->getDefaultRootLevel();
+        $result = array();
+        $category_id = $node->getId();
+        $category = Mage::Helper('kaas_category_cache')->getCategory($category_id, $store_id);
+        
+        if($category && $category->getIsActive())
+        {
+            $category_helper = Mage::Helper('kaas_category')->setStoreId($store_id);
+            //$category_helper->setStoreId($storeId);
+            $category_info = $category_helper->getCategoryInfo($category,$default_root_level);
+
+            if($category_info && isset($category_info['level']) && $category_info['level'] > 0 )
+            {
+                $result[] = $category_info;
+            }
+
+            foreach ($node->getChildren() as $child) {
+                $result = array_merge($result,$this->_nodeToArray($child, $store_id));
+            }
         }
 		
         return $result;

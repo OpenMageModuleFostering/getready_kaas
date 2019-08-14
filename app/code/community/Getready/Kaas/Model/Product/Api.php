@@ -37,12 +37,13 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('store_not_exists');
         }
 
+        $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
         $product = Mage::helper('catalog/product')->getProduct($productId, $storeId, null);
         if (is_null($product->getId())) {
             $this->_fault('product_not_exists');
         }   				
 
-        $product_info = Mage::Helper('kaas_product')->getProductInfo($product); 
+        $product_info = $product_helper->getProductInfo($product); 
         
         Mage::Helper('kaas_activity')->deleteProductActivity($storeId,$productId);
         
@@ -50,7 +51,7 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
     }
 	
     public function infoBySku($productSku,$storeId)
-    {		
+    {	        
         try {
             $store = Mage::app()->getStore($storeId);
         } catch (Mage_Core_Model_Store_Exception $e) {
@@ -59,7 +60,9 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
 
         if (!$store->getId()) {
             $this->_fault('store_not_exists');
-        }		
+        }
+        
+        $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
         $product_id = Mage::getModel('catalog/product')->getIdBySku($productSku);		
         if($product_id)
         {
@@ -73,7 +76,7 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
             $this->_fault('product_not_exists');
         }
 
-        $product_info = Mage::Helper('kaas_product')->getProductInfo($product);
+        $product_info = $product_helper->getProductInfo($product);
         
         if($product_id)
         {
@@ -85,6 +88,7 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
 	
     public function items($storeId)
     {	
+        $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->addStoreFilter($storeId)
             ->addAttributeToSelect('name');		
@@ -98,7 +102,7 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
                 $this->_fault('product_not_exists');
             }   
 									
-            $product_info = Mage::Helper('kaas_product')->getProductInfo($product);
+            $product_info = $product_helper->getProductInfo($product);
             
             Mage::Helper('kaas_activity')->deleteProductActivity($storeId,$product->getId());
             
@@ -110,6 +114,7 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
 	
     public function itemsByIds($storeId, $productIds)
     {
+        $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
         $result = array();
         $products_export = array();
         $errors = array();        
@@ -130,7 +135,7 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
 
                     try
                     {
-                        $product_info = Mage::Helper('kaas_product')->getProductInfo($product);
+                        $product_info = $product_helper->getProductInfo($product);
                     }
                     catch (Exception $e)
                     {
@@ -159,9 +164,9 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
             ->addStoreFilter($storeId);            		
 
         $result = array();		
-
+        
         foreach ($collection as $product) 
-        {
+        {           
             $result[] = (int)$product->getId();	
         }
 
