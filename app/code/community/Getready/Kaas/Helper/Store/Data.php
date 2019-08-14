@@ -40,6 +40,7 @@ class Getready_Kaas_Helper_Store_Data extends Mage_Core_Helper_Abstract
             'store_url' => '',
             'store_url_secure' => '',
             'ga_account' => '',
+            'kaas_module_version' => '',
         );
 
         //general
@@ -66,6 +67,8 @@ class Getready_Kaas_Helper_Store_Data extends Mage_Core_Helper_Abstract
         $store_info['store_url_secure'] = Mage::getStoreConfig('web/secure/base_url', $store_id);
 
         $store_info['ga_account'] = trim((string) Mage::getStoreConfig('google/analytics/account', $store_id));
+
+        $store_info['kaas_module_version'] = (string) Mage::helper('kaas/data')->getModuleVersion();
 
         return $store_info;
     }

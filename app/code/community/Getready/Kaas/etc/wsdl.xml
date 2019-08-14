@@ -41,7 +41,9 @@
                     <element name="timezone" type="xsd:string" />
                     <element name="store_url" type="xsd:string" />
                     <element name="store_url_secure" type="xsd:string" />
-                    <element name="ga_account" type="xsd:string" />                    
+                    <element name="ga_account" type="xsd:string" />
+                    <element name="ga_account" type="xsd:string" />
+                    <element name="kaas_module_version" type="xsd:string" />
                 </all>
             </complexType>			
             <complexType name="kaasStoreEntityArray">

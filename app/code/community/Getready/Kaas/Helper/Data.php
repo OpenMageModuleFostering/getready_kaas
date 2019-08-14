@@ -27,4 +27,8 @@ class Getready_Kaas_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return self::DEFAULT_ROOT_LEVEL;
     }
+
+    public function getModuleVersion() {
+      return(string) Mage::getConfig()->getNode()->modules->Getready_Kaas->version;
+    }
 }

@@ -143,17 +143,73 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         return $result;
     }
 
-    public function itemsIds($storeId)
+    public function itemsIds($query)
     {
+        $parsed_query = $this->_parseQuery($query);
+        $storeId = $parsed_query['store_id'];
+
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->addStoreFilter($storeId);
 
-        $result = array();
+        foreach($parsed_query['query'] as $cond) {
+            $this->_addQueryCondFilter($collection, $cond);
+        }
 
+        Mage::log((string) $collection->getSelectSql());
+
+        $result = array();
         foreach ($collection as $product) {
             $result[] = (int) $product->getId();
         }
 
         return $result;
     }
+
+    protected function _parseQuery($query) {
+        $result = array();
+        if ( strpos($query, 'json:') === 0 ) {
+            list($j, $json_string) = explode(':', $query, 2);
+            $result = json_decode($json_string, true);
+            if ($result===false) $result['store_id'] = 0;
+
+        } else if (is_numeric($query)) {
+            $result['store_id'] = (int) $query;
+        } else {
+            $result['store_id'] = (int) $query;
+        }
+
+        return $result;
+    }
+
+    protected function _addQueryCondFilter($collection, $cond) {
+        if (isset($cond[0]) && isset($cond[1]) && isset($cond[2])) {       
+            switch ($cond[1]) {
+                case 'category_id':
+                    $this->_joinCategory($collection);
+                    $this->_addAttributeFilter($collection, $cond);
+                    break;
+                default:
+                    $this->_addAttributeFilter($collection, $cond);
+
+            }
+        }
+        return $collection;
+    }
+
+    protected function _joinCategory($collection) {
+        $collection->getSelect()->group('entity_id');
+        $collection->joinField(
+            'category_id',
+            'catalog/category_product',
+            'category_id',
+            'product_id=entity_id',null,'left');
+    }
+
+    protected function _addAttributeFilter($collection, $cond) {
+        $collection->addAttributeToFilter($cond[1],array($cond[0]=>$cond[2]));
+    }
+
+
+
+
 }
