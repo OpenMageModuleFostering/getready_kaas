@@ -125,7 +125,8 @@ class Getready_Kaas_Helper_Product_Data extends Mage_Core_Helper_Abstract
 
         //inventory
         $stock = Mage::getModel('cataloginventory/stock_item')->loadByProduct($product);
-        $product_info['qty'] = (int)number_format($stock->getQty(),0);
+        //$product_info['qty'] = (int)number_format($stock->getQty(),0);
+        $product_info['qty'] = (int)$stock->getQty();
         $product_info['stock_status'] = (boolean)$stock->getIsInStock();
 
         //media						
