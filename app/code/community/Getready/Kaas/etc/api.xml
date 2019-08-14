@@ -133,7 +133,7 @@
         <acl>
             <resources>
                 <kaas translate="title" module="kaas">
-                    <title>Kaas</title>
+                    <title>Koongo</title>
                     <sort_order>2000</sort_order> 					
                     <store translate="title" module="kaas">
                         <title>Store</title>                   
