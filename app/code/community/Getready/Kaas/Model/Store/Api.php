@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Module developed by Getready s.r.o
+ * Magento Module developed by Getready s.r.o.
  *
  * NOTICE OF LICENSE
  *
@@ -12,22 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to info@getready.cz so we can send you a copy immediately.
  * 
- * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
- *
+ * @copyright  Copyright (c) 2016 Getready s.r.o. (http://getready.cz)
  */
 /**
- * 
- * 
- *
  * @category   Getready
- * @package    Getready_Kaas
+ *
  * @author     Getready Team <info@getready.cz>
  */
 class Getready_Kaas_Model_Store_Api extends Mage_Api_Model_Resource_Abstract
 {
-	public function info($storeId)
-	{
-		// Retrieve store info
+    public function info($storeId)
+    {
+        // Retrieve store info
         try {
             $store = Mage::app()->getStore($storeId);
         } catch (Mage_Core_Model_Store_Exception $e) {
@@ -37,16 +33,17 @@ class Getready_Kaas_Model_Store_Api extends Mage_Api_Model_Resource_Abstract
         if (!$store->getId()) {
             $this->_fault('store_not_exists');
         }
-		
-		$store_info = Mage::Helper('kaas_store')->getStoreInfo($store); 
-		return $store_info;
-	}
-	
-	public function infoByCode($storeCode)
-	{
-		// Retrieve store info
-        try {            
-			$store = Mage::Helper('kaas_store')->getStoreByCode($storeCode);
+
+        $store_info = Mage::Helper('kaas_store')->getStoreInfo($store);
+
+        return $store_info;
+    }
+
+    public function infoByCode($storeCode)
+    {
+        // Retrieve store info
+        try {
+            $store = Mage::Helper('kaas_store')->getStoreByCode($storeCode);
         } catch (Mage_Core_Model_Store_Exception $e) {
             $this->_fault('store_not_exists');
         }
@@ -54,14 +51,15 @@ class Getready_Kaas_Model_Store_Api extends Mage_Api_Model_Resource_Abstract
         if (!$store->getId()) {
             $this->_fault('store_not_exists');
         }
-		
-		$store_info = Mage::Helper('kaas_store')->getStoreInfo($store); 
-		return $store_info;
-	}
-	
-	public function items()
-	{
-		// Retrieve stores
+
+        $store_info = Mage::Helper('kaas_store')->getStoreInfo($store);
+
+        return $store_info;
+    }
+
+    public function items()
+    {
+        // Retrieve stores
         $stores = Mage::app()->getStores();
 
         // Make result array
@@ -71,6 +69,5 @@ class Getready_Kaas_Model_Store_Api extends Mage_Api_Model_Resource_Abstract
         }
 
         return $result;
-	}
-   
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Module developed by Getready s.r.o
+ * Magento Module developed by Getready s.r.o.
  *
  * NOTICE OF LICENSE
  *
@@ -12,35 +12,32 @@
  * obtain it through the world-wide-web, please send an email
  * to info@getready.cz so we can send you a copy immediately.
  * 
- * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
- *
+ * @copyright  Copyright (c) 2016 Getready s.r.o. (http://getready.cz)
  */
 /**
- * 
- * 
- *
  * @category   Getready
- * @package    Getready_Kaas
+ *
  * @author     Getready Team <info@getready.cz>
  */
 class Getready_Kaas_Helper_Category_Data extends Mage_Core_Helper_Abstract
-{	
+{
     protected $_store_id = 0;
-    
+
     public function setStoreId($store_id)
     {
         $this->_store_id = $store_id;
+
         return $this;
     }
-    
+
     public function getStoreId()
     {
         return $this->_store_id;
     }
-    
-    public function getCategoryInfo($category,$root_level = 0)
+
+    public function getCategoryInfo($category, $root_level = 0)
     {
-        $category_info =  array(
+        $category_info = array(
             'category_id' => '',
             'url' => '',
             'path' => '',
@@ -48,13 +45,12 @@ class Getready_Kaas_Helper_Category_Data extends Mage_Core_Helper_Abstract
             'path_url_key' => '',
             'level' => '',
             'parent_id' => '',
-            'parent_name' => '',			
+            'parent_name' => '',
             'root_id' => '',
             'root_name' => '',
             'description' => '',
-            'name' => '',			
+            'name' => '',
         );
-
 
         //general
         $category_info['category_id'] = $category->getId();
@@ -62,26 +58,23 @@ class Getready_Kaas_Helper_Category_Data extends Mage_Core_Helper_Abstract
         //kaas						        
         $base_url = Mage::app()->getStore($this->getStoreId())->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
         $url_path = $category->getUrlPath();
-        $category_info['url'] = $base_url . $url_path; //$category->getUrl(); 
+        $category_info['url'] = $base_url.$url_path; //$category->getUrl(); 
 
-        $category_path_ids = $this->formatPathIdsForRootCategory($category->getPath(),$root_level);
+        $category_path_ids = $this->formatPathIdsForRootCategory($category->getPath(), $root_level);
 
         $category_info['path'] = $this->getCategoryPath($category_path_ids);
         $category_info['path_ids'] = $category_path_ids;
-        $category_info['path_url_key'] = $this->getCategoryUrlKey($category_path_ids); 
+        $category_info['path_url_key'] = $this->getCategoryUrlKey($category_path_ids);
 
         $original_level = $category->getLevel();
-        $level = $this->formatLevelForRootCategory($original_level ,$root_level);
-        $category_info['level'] = $level; 
-        if($original_level == $root_level)
-        {								
+        $level = $this->formatLevelForRootCategory($original_level, $root_level);
+        $category_info['level'] = $level;
+        if ($original_level == $root_level) {
             $category_info['parent_id'] = null;
             $category_info['parent_name'] = null;
             $category_info['root_id'] = $category->getId();
             $category_info['root_name'] = $category->getName();
-        }
-        else
-        {
+        } else {
             $parent_id = $category->getParentId();
             $category_info['parent_id'] = $parent_id;
             $category_info['parent_name'] = $this->getCategoryName($parent_id);
@@ -94,62 +87,62 @@ class Getready_Kaas_Helper_Category_Data extends Mage_Core_Helper_Abstract
         $category_info['name'] = $category->getName();
 
         return $category_info;
-    }	
-	
-    public function getCategory($category_id)
-    {	
-        $store_id = $this->getStoreId();
-        return Mage::Helper('kaas_category_cache')->getCategory($category_id,$store_id);
     }
-	
+
+    public function getCategory($category_id)
+    {
+        $store_id = $this->getStoreId();
+
+        return Mage::Helper('kaas_category_cache')->getCategory($category_id, $store_id);
+    }
+
     public function formatPathIdsForRootCategory($category_path_ids, $root_level)
     {
         $formated_path_ids = $category_path_ids;
         $path_ids_array = explode('/', $category_path_ids);
-        if(!empty($path_ids_array))
-        {
-            for($i=0;$i < $root_level;$i++)
-            {
+        if (!empty($path_ids_array)) {
+            for ($i = 0;$i < $root_level;++$i) {
                 unset($path_ids_array[$i]);
             }
             $formated_path_ids = implode('/', $path_ids_array);
         }
+
         return $formated_path_ids;
     }
-	
+
     public function formatLevelForRootCategory($level, $root_level)
     {
         $formated_level = $level;
-        if($root_level > 1)
-        {
+        if ($root_level > 1) {
             $formated_level = $level - $root_level + 1;
-        }		 		
+        }
+
         return $formated_level;
     }
 
     public function getCategoryPath($category_path_ids)
-    {		
+    {
         $category_path_array = array();
         $path_ids_array = explode('/', $category_path_ids);
-        foreach($path_ids_array as $_category_id)
-        {
+        foreach ($path_ids_array as $_category_id) {
             $category = $this->getCategory($_category_id);
             $category_path_array[] = $category->getName();
         }
         $category_path = implode('/', $category_path_array);
+
         return $category_path;
     }
 
     public function getCategoryUrlKey($category_path_ids)
-    {		
+    {
         $category_url_key_array = array();
         $path_ids_array = explode('/', $category_path_ids);
-        foreach($path_ids_array as $_category_id)
-        {
+        foreach ($path_ids_array as $_category_id) {
             $category = $this->getCategory($_category_id);
             $category_url_key_array[] = $category->getUrlKey();
         }
         $category_url_key = implode('/', $category_url_key_array);
+
         return $category_url_key;
     }
 
@@ -157,21 +150,20 @@ class Getready_Kaas_Helper_Category_Data extends Mage_Core_Helper_Abstract
     {
         $parent_name = '';
         $category = $this->getCategory($parent_id);
-        if($category->getId())
-        {
+        if ($category->getId()) {
             $parent_name = $category->getName();
         }
+
         return $parent_name;
     }
 
     public function getRootId($category_path_ids)
     {
         $path_ids_array = explode('/', $category_path_ids);
-        if(!empty($path_ids_array))
-        {
+        if (!empty($path_ids_array)) {
             $root_id = $path_ids_array[0];
         }
+
         return $root_id;
     }
-		
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Module developed by Getready s.r.o
+ * Magento Module developed by Getready s.r.o.
  *
  * NOTICE OF LICENSE
  *
@@ -12,24 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to info@getready.cz so we can send you a copy immediately.
  * 
- * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
- *
+ * @copyright  Copyright (c) 2016 Getready s.r.o. (http://getready.cz)
  */
 /**
- * 
- * 
- *
  * @category   Getready
- * @package    Getready_Kaas
+ *
  * @author     Getready Team <info@getready.cz>
  */
 class Getready_Kaas_Model_Mysql4_Activity_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-	
     public function _construct()
     {
         parent::_construct();
         $this->_init('kaas/activity');
     }
-        
 }

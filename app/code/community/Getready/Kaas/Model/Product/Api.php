@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Module developed by Getready s.r.o
+ * Magento Module developed by Getready s.r.o.
  *
  * NOTICE OF LICENSE
  *
@@ -12,21 +12,17 @@
  * obtain it through the world-wide-web, please send an email
  * to info@getready.cz so we can send you a copy immediately.
  * 
- * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
- *
+ * @copyright  Copyright (c) 2016 Getready s.r.o. (http://getready.cz)
  */
 /**
- * 
- * 
- *
  * @category   Getready
- * @package    Getready_Kaas
+ *
  * @author     Getready Team <info@getready.cz>
  */
 class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
 {
-    public function info($productId,$storeId)
-    {	
+    public function info($productId, $storeId)
+    {
         try {
             $store = Mage::app()->getStore($storeId);
         } catch (Mage_Core_Model_Store_Exception $e) {
@@ -41,17 +37,17 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         $product = Mage::helper('catalog/product')->getProduct($productId, $storeId, null);
         if (is_null($product->getId())) {
             $this->_fault('product_not_exists');
-        }   				
+        }
 
-        $product_info = $product_helper->getProductInfo($product); 
-        
-        Mage::Helper('kaas_activity')->deleteProductActivity($storeId,$productId);
-        
+        $product_info = $product_helper->getProductInfo($product);
+
+        Mage::Helper('kaas_activity')->deleteProductActivity($storeId, $productId);
+
         return $product_info;
     }
-	
-    public function infoBySku($productSku,$storeId)
-    {	        
+
+    public function infoBySku($productSku, $storeId)
+    {
         try {
             $store = Mage::app()->getStore($storeId);
         } catch (Mage_Core_Model_Store_Exception $e) {
@@ -61,93 +57,82 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
         if (!$store->getId()) {
             $this->_fault('store_not_exists');
         }
-        
+
         $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
-        $product_id = Mage::getModel('catalog/product')->getIdBySku($productSku);		
-        if($product_id)
-        {
+        $product_id = Mage::getModel('catalog/product')->getIdBySku($productSku);
+        if ($product_id) {
             $product = Mage::helper('catalog/product')->getProduct($product_id, $storeId, null);
             if (is_null($product->getId())) {
                 $this->_fault('product_not_exists');
             }
-        }
-        else
-        {
+        } else {
             $this->_fault('product_not_exists');
         }
 
         $product_info = $product_helper->getProductInfo($product);
-        
-        if($product_id)
-        {
-            Mage::Helper('kaas_activity')->deleteProductActivity($storeId,$product_id);
+
+        if ($product_id) {
+            Mage::Helper('kaas_activity')->deleteProductActivity($storeId, $product_id);
         }
-        
+
         return $product_info;
     }
-	
+
     public function items($storeId)
-    {	
+    {
         $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
         $collection = Mage::getModel('catalog/product')->getCollection()
             ->addStoreFilter($storeId)
-            ->addAttributeToSelect('name');		
-		
+            ->addAttributeToSelect('name');
+
         $result = array();
-		
-        foreach ($collection as $product) 
-        {			
+
+        foreach ($collection as $product) {
             $product = Mage::helper('catalog/product')->getProduct($product->getId(), $storeId, null);
             if (is_null($product->getId())) {
                 $this->_fault('product_not_exists');
-            }   
-									
+            }
+
             $product_info = $product_helper->getProductInfo($product);
-            
-            Mage::Helper('kaas_activity')->deleteProductActivity($storeId,$product->getId());
-            
+
+            Mage::Helper('kaas_activity')->deleteProductActivity($storeId, $product->getId());
+
             $result[] = $product_info;
         }
 
         return $result;
     }
-	
+
     public function itemsByIds($storeId, $productIds)
     {
         $product_helper = Mage::Helper('kaas_product')->setStoreId($storeId);
         $result = array();
         $products_export = array();
-        $errors = array();        
-        if(!empty($productIds))
-        {
-            foreach($productIds as $product_id)
-            {								
-                if($product_id > 0)
-                {										
+        $errors = array();
+        if (!empty($productIds)) {
+            foreach ($productIds as $product_id) {
+                if ($product_id > 0) {
                     $product = Mage::helper('catalog/product')->getProduct($product_id, $storeId, null);
-                    if (is_null($product->getId())) {                            
+                    if (is_null($product->getId())) {
                         $errors[] = array(
                             'product_id' => $product_id,
-                            'message' => 'product with id ' . $product_id . ' not exists',
+                            'message' => 'product with id '.$product_id.' not exists',
                         );
                         continue;
                     }
 
-                    try
-                    {
+                    try {
                         $product_info = $product_helper->getProductInfo($product);
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $errors[] = array(
                             'product_id' => $product_id,
-                            'message' => $e->getMessage()
+                            'message' => $e->getMessage(),
                         );
                         continue;
                     }
                     $products_export[] = $product_info;
-                    
-                    Mage::Helper('kaas_activity')->deleteProductActivity($storeId,$product->getId());
+
+                    Mage::Helper('kaas_activity')->deleteProductActivity($storeId, $product->getId());
                 }
             }
         }
@@ -157,22 +142,18 @@ class Getready_Kaas_Model_Product_Api extends Mage_Api_Model_Resource_Abstract
 
         return $result;
     }
-	
-    public function itemsIds($storeId)
-    {						
-        $collection = Mage::getModel('catalog/product')->getCollection()
-            ->addStoreFilter($storeId);            		
 
-        $result = array();		
-        
-        foreach ($collection as $product) 
-        {           
-            $result[] = (int)$product->getId();	
+    public function itemsIds($storeId)
+    {
+        $collection = Mage::getModel('catalog/product')->getCollection()
+            ->addStoreFilter($storeId);
+
+        $result = array();
+
+        foreach ($collection as $product) {
+            $result[] = (int) $product->getId();
         }
 
         return $result;
     }
-	
-	
-   
 }

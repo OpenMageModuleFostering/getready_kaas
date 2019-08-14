@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento Module developed by Getready s.r.o
+ * Magento Module developed by Getready s.r.o.
  *
  * NOTICE OF LICENSE
  *
@@ -12,15 +12,11 @@
  * obtain it through the world-wide-web, please send an email
  * to info@getready.cz so we can send you a copy immediately.
  * 
- * @copyright  Copyright (c) 2015 Getready s.r.o. (http://getready.cz)
- *
+ * @copyright  Copyright (c) 2016 Getready s.r.o. (http://getready.cz)
  */
 /**
- * 
- * 
- *
  * @category   Getready
- * @package    Getready_Kaas
+ *
  * @author     Getready Team <info@getready.cz>
  */
 class Getready_Kaas_Model_Activity_Api extends Mage_Api_Model_Resource_Abstract
@@ -37,11 +33,12 @@ class Getready_Kaas_Model_Activity_Api extends Mage_Api_Model_Resource_Abstract
         if (!$store->getId()) {
             $this->_fault('store_not_exists');
         }
-        
-        $activity_feed = Mage::Helper('kaas_activity')->getActivityFeed($store); 
+
+        $activity_feed = Mage::Helper('kaas_activity')->getActivityFeed($store);
+
         return $activity_feed;
     }
-    
+
     public function clear($storeId)
     {
         // Retrieve store info
@@ -54,9 +51,9 @@ class Getready_Kaas_Model_Activity_Api extends Mage_Api_Model_Resource_Abstract
         if (!$store->getId()) {
             $this->_fault('store_not_exists');
         }
-        
-        $cleared = Mage::Helper('kaas_activity')->clearActivityFeed($store); 
+
+        $cleared = Mage::Helper('kaas_activity')->clearActivityFeed($store);
+
         return $cleared;
     }
-   
 }
