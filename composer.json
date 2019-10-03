@@ -1,7 +1,7 @@
 {
-    "name": "OpenMageModuleFostering\/getready_kaas",
+    "name": "openmage-module-fostering\/getready_kaas",
     "type": "magento-module",
-    "license": "OSL-v3",
+    "license": "OSL-3.0",
     "homepage": "",
     "description": "Koongo is the ultimate Feed and Affiliate Marketing Tool that allows integration of electronic stores with more 500+ product aggregators, affiliate networks and selling channels worldwide.",
     "authors": [
